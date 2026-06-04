@@ -12,9 +12,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id        String   @id @default(cuid())
-  email     String   @unique
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
   password  String
+  createdAt DateTime   @default(now())
+  documents Document[]
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  title     String
+  fileUrl   String
+  publicId  String
+  fileType  String
   createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }
